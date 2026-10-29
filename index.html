@@ -107,7 +107,7 @@ header p { margin: 0; color: var(--teks-redup); }
 ‎    </select>  
 ‎  
 ‎    <select id="filterMapel" aria-label="Filter mata pelajaran">  
-‎      <option value="">Semua mapel</option>  
+‎      <option value="">Semua kelas</option>  
     </select>  
   </div>  
   <p id="jumlah" class="jumlah" aria-live="polite"></p>  
@@ -138,7 +138,7 @@ async function muatData() {
   tampilkanPesan("Memuat data siswa...");  
   const { data, error } = await db  
     .from("siswa")  
-    .select("nis, nama, kelas, jenis_kelamin, tanggal_lahir, alamat, foto_url")  
+    .select("nis, nama, kelas, jenis_kelamin, tanggal_lahir, alamat, foto_url ,nama_guru,mapel")  
     .order("nama");  
   
   if (error) {  
