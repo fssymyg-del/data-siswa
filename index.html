@@ -116,7 +116,9 @@ const TAMPILKAN = {
   jenisKelamin: true,
   tanggalLahir: true,
   alamat: true,
-  foto_url: true
+  foto_url: true,
+  nama_guru: true,
+  mapel: true,
 };
 
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -131,7 +133,7 @@ async function muatData() {
   tampilkanPesan("Memuat data siswa...");
   const { data, error } = await db
     .from("siswa")
-    .select("nis, nama, kelas, jenis_kelamin, tanggal_lahir, alamat, foto_url")
+    .select("nis, nama, kelas, jenis_kelamin, tanggal_lahir, alamat, foto_url, nama_guru, mapel")
     .order("nama");
 
   if (error) {
@@ -144,9 +146,18 @@ async function muatData() {
   tampilkanSiswa();
 }
 
+semuaGuru = data;
+  isipilihanmapel();
+  tampilkanGuru();
+  }
+
 function tampilkanSiswa() {
   const kataKunci = elCari.value.trim().toLowerCase();
   const kelasDipilih = elKelas.value;
+
+  function tampilkanguru() {
+  const kataKunci = elCari.value.trim().toLowerCase();
+  const mapelDipilih = elmapel.value;
 
   const hasil = semuaSiswa.filter((s) => {
     const cocokKelas = !kelasDipilih || s.kelas === kelasDipilih;
@@ -190,10 +201,11 @@ function buatKartu(s) {
   tambahBaris(rincian, "Kelas", s.kelas);
   if (TAMPILKAN.jenisKelamin) tambahBaris(rincian, "Jenis kelamin", s.jenis_kelamin);
   if (TAMPILKAN.tanggalLahir) tambahBaris(rincian, "Tanggal lahir", formatTanggal(s.tanggal_lahir));
-  if (TAMPILKAN.alamat) tambahBaris(rincian, "Alamat", s.alamat);
+  if (TAMPILKAN.alamat) tambahBaris(rincian, "alamat", s.alamat)
+  if (TAMPILKAN.nama_guru) tambahBaris(rincian, "nama_guru", s.nama_guru);
+  if (TAMPILKAN.mapel) tambahBaris(rincian, "mapel", s.mapel);
   
   isi.appendChild(rincian);
-  kartu.appendChild(isi);
   return kartu;
 }
 
